@@ -20,17 +20,19 @@ export class UsersService {
         const body = JSON.stringify(user);
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         //Adds a header to indicate that the body is a JSON object to pass to the register post route
-        return this.httpClient.post('http://localhost:3000/api/user/register', body, { headers: headers })
+        return this.httpClient.post(`${environment.apiUrl}/user/register`, body, { headers: headers })
             .map((response: Response) => response)
             .catch((error: Response) => Observable.throw(error));
     }
+
+    
 
     login(email, password){
     let body = {
       email: email, 
       password: password
     }
-    return this.httpClient.post('http://localhost:3000/api/user/login', body)
+    return this.httpClient.post(`${environment.apiUrl}/user/login`, body)
         .map((response: Response) => response)
         .catch((error: Response) => Observable.throw(error));
   }
@@ -91,10 +93,5 @@ export class UsersService {
     return this.httpClient.delete(`${environment.apiUrl}/user/deleteFavorite/`+ schoolId , {headers: headers});
   }
 
-  /*getFavorites(userId){
-    let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-    return this.httpClient.get(`${environment.apiUrl}/school/review/`+ schoolName , {headers: headers});
-  }
-*/
+ 
 }

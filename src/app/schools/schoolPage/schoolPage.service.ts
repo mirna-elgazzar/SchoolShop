@@ -45,12 +45,6 @@ export class SchoolPageService {
     return this.httpClient.get(`${environment.apiUrl}/school/review/analyzeRating/`+ schoolName , {headers: headers});
   }
 
-  /*getAverageRating(schoolName){
-    let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-    return this.httpClient.get(`${environment.apiUrl}/school/averagRating/`+ schoolName , {headers: headers});
-  }*/
-
   addFavorite(schoolId){
     
     let headers = new HttpHeaders();

@@ -23,12 +23,6 @@ getStationary() {
     return this.httpClient.get(`${environment.apiUrl}/stationary`);
   }
 
-  /*getStationaryLocation(location){
-    let headers = new HttpHeaders();
-		headers.append('Content-Type', 'application/json');
-    return this.httpClient.get(`${environment.apiUrl}/stationary/location/`+ location , {headers: headers});
-  }*/
-
   getStationaryLocation(search: string) {
       return this.httpClient.get(`${environment.apiUrl}/stationary/location/search?`+search);
     }

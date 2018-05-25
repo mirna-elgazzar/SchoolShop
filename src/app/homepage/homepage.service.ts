@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-
+import { environment } from '../../environments/environment';
 @Injectable()
 export class HomepageService {
   constructor(private httpClient: HttpClient) {}
@@ -12,7 +12,9 @@ export class HomepageService {
       email: email,
       message:message
     }
-    return this.httpClient.put('http://localhost:3000/api/user/sendEmail', body);
+    return this.httpClient.put(`${environment.apiUrl}/user/sendEmail`, body);
+
+    
         
   }
 }
