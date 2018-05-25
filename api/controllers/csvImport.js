@@ -11,7 +11,7 @@ const SchoolReview = mongoose.model('SchoolReview');
 const Stationary = mongoose.model('Stationary');
 const StationeryReview = mongoose.model('StationeryReview');
 
-var csvfile = '/media/mirnaelgazzar/C608EBD708EBC511/Mirna guc/sem 8/Main/SchoolShop/public/files/Dokki.csv';
+var csvfile = __dirname + '/../../public/files/Dokki.csv';
 var stream = fs.createReadStream(csvfile);
 
 var schoolRes = "";
@@ -345,7 +345,7 @@ var csvImport = {
 
     },
     test: function(req, res) {
-        const dir = '/media/mirnaelgazzar/C608EBD708EBC511/Mirna guc/sem 8/Main/SchoolShop/src/assets/img/gallery';
+        const dir = __dirname + '/../../src/assets/img/gallery';
 
         School.find({}, function(err, schools) {
             fs.readdir(dir, (err, files) => {
