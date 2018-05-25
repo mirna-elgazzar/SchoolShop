@@ -1,0 +1,45 @@
+<div class="wrapper">
+    <div class="page-header" style="background-image: url('../assets/img/login-image.jpg');">
+        <div class="filter"></div>
+        <div class="container" align="middle">
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                    <div class="card card-register">
+                        <h3 class="title">Creat your account</h3>
+                        <div class="social-line text-center">
+                            <div *ngIf="success" class="alert alert-success">{{ message }}</div>
+
+                            <div *ngIf="failure" class="alert alert-danger">{{ message }}</div>
+
+
+                        </div>
+                        <form class="register-form">
+                            <label for="firstName">First Name</label>
+                            <input type="text" [(ngModel)]="firstName" name="firstName" class="form-control" placeholder="Enter your First Name">
+
+                            <label>Last Name</label>
+                            <input class="form-control" placeholder="Enter your Last Name" type="text" [(ngModel)]="lastName" name="lastName" required>
+
+                            <label>Email</label>
+                            <input class="form-control" placeholder="Enter your email address" type="text" [(ngModel)]="email" name="email" required>
+
+                            <label>Password</label>
+                            <input class="form-control" placeholder="Minimum 8 characters" type="password" [(ngModel)]="password" name="password" required>
+
+                            <label>Confirm Password</label>
+                            <input class="form-control" placeholder="Re-type password again" type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+
+
+                            <label>Birth Date</label>
+                            <input class="form-control" placeholder="" type="date" [(ngModel)]="birthDate" name="birthDate">
+
+
+                            <button type="button" class="btn btn-primary" (click)="onSubmit()">Register</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

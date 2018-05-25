@@ -1,0 +1,120 @@
+<div class="container">
+    <div class="row">
+        <div class="tim-title">
+            <div class="col">
+                <div class="schoolsort">
+                    <div class="row">
+                        <div class="d-flex">
+
+                            <input type="text" placeholder="Search by name" class="form-control mr-1" data-min-length="1" name="results" #result>
+                            <button type="button" class="btn btn-primary" (click)="updateSearch(result.value)"> Search</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3>{{pageTitle}}</h3>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="column left" style="background-color:#BDEDFF;">
+            <h3>Filters</h3>
+            <input type="text" class="filterinput" placeholder="Enter a school name" [(ngModel)]="term" align="center" width="10">
+
+            <div class="certificatesbox">
+
+                <!-- Heading Title -->
+                <h5 class="app-heading">certificates:</h5>
+
+                <!-- Search Field -->
+                <div>
+                    <div class="filter-wrap">
+                        <input [(ngModel)]="searchText" placeholder="Filter certificates" class="filterinput">
+                        <span class="filter-clear" *ngIf="searchText.length>0" (click)="clearFilter()">X</span>
+                    </div>
+                </div>
+
+                <!-- Clear Link -->
+                <div class="text-danger" title="Click to Clear Selections" (click)="clearSelection()" *ngIf="selected_count">Clear Selection</div>
+
+                <!-- certificates List -->
+
+                <div class="form-check" *ngFor="let c of certificates | filter : searchText">
+                    <label class="form-check-label">
+                        <input class="form-check-input" (change)="getSelected()" type="checkbox" name="certificates" value="{{c.id}}" [(ngModel)]="c.selected" />
+                        <span class="form-check-sign">{{c.name}}</span>
+                    </label>
+                </div>
+
+
+
+
+
+                <!-- Selected certificates-->
+                <div class="selected-games-wrap">
+                    <div class="selected-game" *ngFor="let s of selected_games">
+                        <span>{{s.name}} <span class="delete-game" (click)="deleteGame(s.id)" title="Click to delete">X</span></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="column right">
+            <div class="row">
+
+                <div class="col">
+                    <div class="schoolsort pull-right">
+                        <div class="row">
+                            <div class="d-flex">
+                                <select class="selectpicker show-tick form-control" title="sort by" #sort>
+									<option >Sort by:</option>
+                                    <option value="rating">rating</option>
+                                    <option value="alphabet">A-Z</option>
+								</select>
+                                <button type="button" class="btn btn-primary btn-sm" (click)="updateSortQuery(sort.value)"> Go</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="allschools">
+                <div class="GridLex-grid-noGutter-equalHeight">
+
+                    <div class="GridLex-col-3_sm-4_xs-6_xss-8" *ngFor="let school of (schools |filterPipe: term : selected_certificates)">
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 ml-auto mr-auto">
+
+                            <div class="card">
+                                <!--to add the link later-->
+                                <a href="/schools/school/{{school._id}}">
+                                    <div class="card-image">
+                                        <img *ngIf="school.profilePicture" src="../assets/img/gallery/{{school.name}}/0.jpg" alt="Circle Image" class="img-thumbnail img-responsive" style="width:260px;height:200px;">
+                                        <img *ngIf="!school.profilePicture" src="../assets/img/schoolLogo.jpg" alt="Circle Image" class="img-thumbnail img-responsive" style="width:260px;height:200px;">
+                                    </div>
+
+                                    <span class="label label-primary" align="center"><h4 align="center">{{school.name}}</h4></span>
+                                    <div class="col" align="left">
+                                        <ng-template #t let-fill="fill">
+                                            <span class="star pull-left" [class.full]="fill === 100">
+                                                    <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                                            </span>
+
+                                        </ng-template>
+
+                                        <ngb-rating [(rate)]="school.average" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

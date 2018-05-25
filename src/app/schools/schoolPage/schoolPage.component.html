@@ -1,0 +1,356 @@
+<div class="wrapper">
+    <div class="page-header page-header-xs" data-parallax="true" style="background-image: url(' ../assets/img/fabio-mangione.jpg');">
+        <div class="filter"></div>
+    </div>
+    <div class="section profile-content" #start>
+        <div class="container">
+            <div class="owner">
+                <div class="avatar">
+                    <img *ngIf="!profilePicture" src="../assets/img/schoolLogo.jpg" alt="Circle Image" class="img-thumbnail img-responsive">
+                    <img *ngIf="profilePicture" src="../assets/img/gallery/{{name}}/0.jpg" alt="Circle Image" class="img-thumbnail img-responsive">
+                </div>
+                <div class="name ">
+                    <h2 class="title ">{{name}}<br /></h2>
+
+                    <div *ngIf="twitAvailable() || faceAvailable() ||youtubeAvailable||instagramAvailable" class="social-line text-center">
+                        <p>Check us out on social media</p>
+
+                        <a *ngIf="faceAvailable()" href="{{facebook}}" class="btn btn-neutral btn-facebook btn-just-icon">
+                            <i class="fa fa-facebook-square"></i>
+                        </a>
+
+                        <a *ngIf="twitAvailable()" class="btn btn-neutral btn-twitter btn-just-icon">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+
+
+                    </div>
+
+
+                    <ng-template #t let-fill="fill">
+                        <span class="star" [class.full]="fill === 100">
+                            <span class="half" [style.width.%]="fill">&hearts;</span>&hearts;
+                        </span>
+
+                    </ng-template>
+
+                    <ngb-rating [(rate)]="averageRating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+                    <span>({{numReviews}})</span>
+
+
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-6 ml-auto mr-auto text-center ">
+                    <p ng-if="aboutUsAvailable">{{aboutUs}} </p>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-8">
+
+                            <button *ngIf="isLoggedIn() && !(isFav)" type="button" class="btn btn-success" (click)="addFavorite()">Favorite this!</button>
+                            <button *ngIf="isLoggedIn() && isFav" type="button" class="btn btn-danger" (click)="removeFavorite()">Unfavorite</button>
+                            <button *ngIf="!isRev" type="button" class="btn btn-warning " (click)="scroll(target)">Rate and Review</button>
+                            <button *ngIf="isLoggedIn() && isRev" type="button" class="btn btn-warning " (click)="scroll(target)">Edit your review and rating</button>
+
+
+
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="success" class="alert alert-success ">{{ message }}</div>
+
+
+                </div>
+            </div>
+
+            <br/>
+            <div class="nav-tabs-navigation ">
+                <div class="nav-tabs-wrapper ">
+                    <ngb-tabset [justify]=" 'left' ">
+
+                        <ngb-tab title="About us ">
+                            <ng-template ngbTabContent>
+                                <div class="row following " id="aboutUs ">
+                                    <div class="col-md-6 ml-auto mr-auto ">
+                                        <ul class="list-unstyled follows ">
+
+                                            <li *ngIf="websiteAvailable">
+                                                <div class="row ">
+                                                    <span class="label label-default">Website</span>
+                                                    <div>
+                                                        <a [ngStyle]="{'padding-left':'30px' }" href="{{website}}" class="btn btn-link btn-primary">{{website}}</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <hr *ngIf="websiteAvailable" />
+
+                                            <li>
+                                                <div class="row " *ngIf="emailAvailable">
+                                                    <span class="label label-danger ">Email</span>
+                                                    <a [ngStyle]="{'padding-left':'30px' }" class="btn btn-link btn-primary">{{email}}</a>
+
+                                                </div>
+                                            </li>
+                                            <hr *ngIf="emailAvailable" />
+
+                                            <li>
+                                                <div class="row ">
+                                                    <span class="label label-primary">address</span>
+                                                    <div [ngStyle]="{'padding-left':'20px' }">
+                                                        <i class="fa fa-map-marker"></i>{{address}}
+                                                    </div>
+                                                </div>
+
+                                            </li>
+                                            <div class="row">
+                                                <a [ngStyle]="{'padding-left':'80px' }" href="{{googleMapsUrl}}" class="btn btn-link btn-primary">{{googleMapsUrl}}</a>
+                                            </div>
+                                            <hr />
+                                            <li>
+                                                <div class="row ">
+                                                    <span class="label label-info">Phone numbers</span>
+                                                    <div [ngStyle]="{'padding-left':'20px' }">
+                                                        <i *ngIf="phoneNumbersAvailable" class="fa fa-phone"></i> {{phoneNumbers}}
+                                                        <span class="mh-5 text-muted">|</span> {{internationalPhoneNumbers}}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <hr />
+
+                                            <li>
+                                                <div class="row " *ngIf="visionMissionAvailable">
+                                                    <span class="label label-success">Vision and Mission</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                {{visionMission}}
+                                            </li>
+                                            <hr *ngIf="visionMissionAvailable" />
+
+                                            <li>
+                                                <div class="row " *ngIf="certificatesAvailable">
+                                                    <span class="label label-warning">Certificates</span>
+                                                    <div [ngStyle]="{'padding-left':'30px' }">
+                                                        {{certificates}}
+                                                    </div>
+                                                </div>
+
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab title="Reviews ">
+                            <ng-template ngbTabContent #target2>
+                                <div *ngIf="reviewsAvailable" class="roww ">
+                                    <span class="heading ">User Rating</span>
+
+
+                                    <p>{{averageRating}} average based on {{numReviews}} reviews.</p>
+                                    <hr style="border:3px solid #f1f1f1 ">
+
+                                    <div class="row ">
+                                        <div class="side ">
+                                            <div>5 star</div>
+                                        </div>
+                                        <div class="middle ">
+                                            <div class="bar-container ">
+                                                <div class="bar-5" [ngStyle]="{'width':rating5Perc}"></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right ">
+                                            <div>{{rating5Num}}</div>
+                                        </div>
+                                        <div class="side ">
+                                            <div>4 star</div>
+                                        </div>
+                                        <div class="middle ">
+                                            <div class="bar-container ">
+                                                <div class="bar-4 " [ngStyle]=" { 'width':rating4Perc} "></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right ">
+                                            <div>{{rating4Num}}</div>
+                                        </div>
+                                        <div class="side ">
+                                            <div>3 star</div>
+                                        </div>
+                                        <div class="middle ">
+                                            <div class="bar-container ">
+                                                <div class="bar-3 " [ngStyle]="{'width':rating3Perc}"></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right ">
+                                            <div>{{rating3Num}}</div>
+                                        </div>
+                                        <div class="side ">
+                                            <div>2 star</div>
+                                        </div>
+                                        <div class="middle ">
+                                            <div class="bar-container ">
+                                                <div class="bar-2" [ngStyle]="{'width':rating2Perc}"></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right ">
+                                            <div>{{rating2Num}}</div>
+                                        </div>
+                                        <div class="side ">
+                                            <div>1 star</div>
+                                        </div>
+                                        <div class="middle ">
+                                            <div class="bar-container ">
+                                                <div class="bar-1 " [ngStyle]="{'width':rating1Perc}"></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right ">
+                                            <div>{{rating1Num}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr style="border:3px solid #f1f1f1" />
+                                <p *ngIf="! reviewsAvailable">This school has no reviews yet</p>
+                                <div class="row following " id="reviews ">
+                                    <div class="col-md-6 ml-auto mr-auto ">
+                                        <ul class="list-unstyled follows " *ngFor="let review of reviews; let i=index ">
+
+                                            <li *ngIf="review.commentAvailable">
+
+                                                <blockquote class="blockquote ">
+                                                    <h6 *ngIf="!review.userReview" class="pull-left">{{review.user_name}}</h6>
+                                                    <a *ngIf="review.userReview" href="/users/profile/{{review.user}}">
+                                                        <h6 class="pull-left">{{review.user_name}}</h6>
+                                                    </a>
+                                                    <div class="row" [ngStyle]="{'padding-left':'30px' }">
+                                                        <ng-template #t let-fill="fill">
+                                                            <span class="starSmall" [class.full]="fill === 100">
+                                                                 <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                                                            </span>
+                                                        </ng-template>
+                                                        <ngb-rating [(rate)]="review.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+                                                    </div>
+                                                    <p class="mb-0 ">{{review.comment}}</p>
+
+                                                    <footer>
+                                                        <p class="text-muted"> <cite>{{review.time_string}}</cite></p>
+                                                    </footer>
+                                                    <footer>
+                                                        <p class="text-muted"><cite>{{review.time |date : "dd/MM/y HH:mm "}}</cite></p>
+                                                    </footer>
+
+                                                </blockquote>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+
+                        <ngb-tab title="Gallery">
+                            <ng-template ngbTabContent>
+                                <div class="section" id="carousel">
+                                    <div class="container">
+                                        <div class="tim-title">
+                                            <h3>Photo gallery</h3>
+                                        </div>
+                                        <p *ngIf="!photosAvail">This school has no photos yet</p>
+
+
+                                        <div *ngIf="photosAvail" class="GridLex-grid-noGutter-equalHeight">
+
+                                            <div class="GridLex-col-1_sm-4_xs-6_xss-8" *ngFor="let photo of photos">
+                                                <img src={{photo}} class="tn" alt="Circle Image" class="img-thumbnail img-responsive" style="width:260px;height:100px;" (click)=setSelectedImage(photo)>
+
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="photosAvail">
+                                            <div class="col-md-8 mr-auto ml-auto">
+                                                <div class="card page-carousel">
+                                                    <ngb-carousel>
+
+                                                        <ng-template ngbSlide>
+                                                            <img src={{selectedImage}} alt="photo">
+                                                            <div class="carousel-caption">
+                                                                <p>{{name}}</p>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-carousel>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </ng-template>
+                        </ngb-tab>
+
+                    </ngb-tabset>
+                </div>
+            </div>
+
+            <br/>
+
+
+            <div #target>
+                <div class="container ">
+                    <div class="row ">
+                        <div class="col-md-8 mr-auto ml-auto ">
+                            <h2 class="text-center ">Rate and review this school!</h2>
+                            <h5>Your opinion matters.</h5>
+                            <p *ngIf="isRev"> You have reviewed and rated this school before, you can now edit your review and rating</p>
+                            <div *ngIf="success " class="alert alert-success ">{{ message }}</div>
+
+                            <div *ngIf="failure " class="alert alert-danger ">{{ message }}</div>
+                            <form class="contact-form ">
+                                <div class="row ">
+
+                                    <div *ngIf="isLoggedOut() ">
+                                        <label>Name</label>
+                                        <input type="text " class="form-control " [(ngModel)]="user_name " name="user_name " placeholder="please enter your name ">
+                                    </div>
+
+                                </div>
+                                <div class="row ">
+                                    <label>Your Comment</label>
+                                    <textarea *ngIf="isLoggedIn() &&!isRev" class="form-control " rows="4 " [(ngModel)]="comment " name="comment " placeholder="Tell us what your think about this school... "></textarea>
+                                    <textarea *ngIf="isLoggedIn() && isRev" class="form-control " rows="4 " [(ngModel)]="comment " name="comment " placeholder={{oldComment}}></textarea>
+
+                                </div>
+                                <div class="row ">
+                                    <h4>your rating:</h4>
+                                </div>
+
+                                <div class="row">
+
+                                    <fieldset class="rating">
+                                        <input type="radio" id="star5" name="rating" [(ngModel)]="reviewRating " value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
+                                        <input type="radio" id="star4" name="rating" [(ngModel)]="reviewRating " value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
+                                        <input type="radio" id="star3" name="rating" [(ngModel)]="reviewRating " value="3" /><label class="full" for="star3" title="Meh - 3 stars"></label>
+                                        <input type="radio" id="star2" name="rating" [(ngModel)]="reviewRating " value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+                                        <input type="radio" id="star1" name="rating" [(ngModel)]="reviewRating " value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                                    </fieldset>
+                                </div>
+
+                            </form>
+                            <div class="row " align="text-center ">
+                                <div class="col-md-4 mr-auto ml-auto ">
+                                    <button *ngIf="!isRev" class="btn btn-danger btn-lg btn-fill " (click)="submitClicked(start) ">Submit</button>
+                                    <button *ngIf="isLoggedIn() &&isRev" class="btn btn-danger btn-lg btn-fill " (click)="editClicked(start) ">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

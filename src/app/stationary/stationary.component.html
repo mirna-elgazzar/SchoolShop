@@ -1,0 +1,103 @@
+<div class="container">
+    <div class="row">
+        <div class="tim-title">
+            <h3>{{title}}</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column left" style="background-color:#BDEDFF;">
+            <h3>Filters</h3>
+            <input type="text" class="filterinput2" placeholder="Enter a stationery name" [(ngModel)]="term" align="center" width="10">
+
+            <div class="certificatesbox">
+
+
+                <h5 class="app-heading">Locations:</h5>
+
+                <!-- Search Field -->
+                <div>
+                    <div class="filter-wrap">
+                        <input [(ngModel)]="searchText" placeholder="Filter locations" class="filterinput">
+                        <span class="filter-clear" *ngIf="searchText.length>0" (click)="clearFilter()">X</span>
+                    </div>
+                </div>
+
+                <!-- Clear Link -->
+                <div class="text-danger" title="Click to Clear Selections" (click)="clearSelection()" *ngIf="selected_count">Clear Selection</div>
+
+                <!-- locations List -->
+
+                <div class="form-check" *ngFor="let l of locations | filter : searchText">
+                    <label class="form-check-label">
+                        <input class="form-check-input" (change)="getSelected()" type="checkbox" name="locations" value="{{l.id}}" [(ngModel)]="l.selected" />
+                        <span class="form-check-sign">{{l.html}}</span>
+                    </label>
+                </div>
+
+
+                <!-- Selected certificates-->
+                <div class="selected-games-wrap">
+                    <div class="selected-game" *ngFor="let l of selected_locations">
+                        <span>{{l.html}} <span class="delete-game" (click)="deleteGame(l.id)" title="Click to delete">X</span></span>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="column right">
+            <div class="verticalLine">
+                <div class="schoolsort">
+                    <div class="row">
+
+                        <div class="d-flex">
+                            <select class="selectpicker show-tick form-control" title="sort by" #sorting>
+									<option >Sort by:</option>
+                                    <option value="rating">rating</option>
+                                    <option value="alphabet">A-Z</option>
+								</select>
+                            <button type="button" class="btn btn-primary btn-sm" (click)="updateSortQuery(sorting.value)"> Go</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="allschools">
+                    <div class="GridLex-grid-noGutter-equalHeight">
+
+                        <div class="GridLex-col-3_sm-4_xs-6_xss-8" *ngFor="let s of (stationary |filterPipe: term : selected_locations)">
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 ml-auto mr-auto">
+
+                                <div class="card">
+                                    <!--to add the link later-->
+                                    <a href="/stationary/stationaryPage/{{s._id}}">
+                                        <div class="card-image">
+                                            <img src="../assets/img/stationery.jpg" alt="Circle Image" class="img-thumbnail img-responsive" style="width:260px;height:200px;">
+                                        </div>
+
+                                        <span class="label label-primary" align="center"><h4 align="center">{{s.name}}</h4></span>
+                                        <div class="col" align="left">
+                                            <ng-template #t let-fill="fill">
+                                                <span class="star pull-left" [class.full]="fill === 100">
+                                                    <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                                                </span>
+
+                                            </ng-template>
+
+                                            <ngb-rating [(rate)]="s.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+                                        </div>
+
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

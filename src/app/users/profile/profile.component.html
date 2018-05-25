@@ -1,0 +1,119 @@
+<div class="wrapper">
+    <div class="page-header page-header-xs" data-parallax="true">
+        <div class="filter"></div>
+    </div>
+    <div class="section profile-content">
+        <div class="container">
+            <div class="owner">
+                <div class="avatar">
+                    <img src="../assets/img/faces/joe-gardner-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                </div>
+                <div class="name">
+                    <h4 class="title">{{firstName}} {{lastName}}<br /></h4>
+                </div>
+            </div>
+            <div class="row" *ngIf="myProfile">
+                <div class="col-md-6 ml-auto mr-auto text-center">
+                    <br />
+                    <button class="btn btn-outline-default btn-round"><i class="fa fa-cog"></i> Settings</button>
+                </div>
+            </div>
+            <br/>
+            <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                    <ngb-tabset [justify]="'center'">
+                        <ngb-tab title="About">
+                            <ng-template ngbTabContent>
+                                <div class="row following" id="follows">
+                                    <div class="col-md-6 ml-auto mr-auto">
+
+
+                                        <div class="row">
+                                            <span class="label label-default">Email</span>
+                                            <p [ngStyle]="{'padding-left':'30px' }">{{email}}</p>
+
+                                        </div>
+                                        <hr/>
+
+                                        <div *ngIf="bdAvailable" class="row">
+                                            <span class="label label-primary">Birthdate</span>
+                                            <p [ngStyle]="{'padding-left':'30px' }">{{birthDate| date:' MMM d, y'}}</p>
+                                        </div>
+                                        <hr *ngIf="bdAvailable" />
+                                        <div class="row">
+                                            <span class="label label-info">Joined </span>
+                                            <p [ngStyle]="{'padding-left':'30px' }">{{joined |date:' MMM d, y'}}</p>
+
+                                        </div>
+                                        <hr />
+
+
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab title="Favorites">
+                            <ng-template ngbTabContent>
+                                <ul *ngFor="let fav of favSchools; let i=i ndex ">
+                                    <div class="row">
+                                        <span>
+                                            <a href="/schools/school/{{fav._id}}" class="btn btn-link btn-primary">{{fav.name}}</a>
+                                            
+                                            </span>
+
+                                        <div *ngIf="myProfile" class="col-md-6">
+                                            <button *ngIf="myProfile" type="button" class="pull-right btn btn-danger btn-sm" (click)="removeFavorite(fav._id)">Unfavorite</button>
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+                                </ul>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab title="Reviews and ratings">
+                            <ng-template ngbTabContent>
+                                <div class="row" id="reviews ">
+                                    <div class="col">
+                                        <p *ngIf="!reviewsAvailable"> You have not rated or reviewd any schools</p>
+                                        <ul *ngFor="let review of reviews; let i=i ndex ">
+                                            <div class="row">
+                                                <span><a  class="btn btn-link btn-primary">{{review.school_name}}</a></span>
+
+                                                <ng-template #t let-fill="fill">
+                                                    <span class="star" [class.full]="fill === 100">
+                                                    <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                                                    </span>
+
+                                                </ng-template>
+
+                                                <ngb-rating [(rate)]="review.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+                                                <div *ngIf="myProfile" class="col-md-6">
+                                                    <span class="pull-right label label-danger"><a (click)="onDelete(review._id)">Delete</a></span>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <p class="mb-0 ">{{review.comment}}</p>
+                                            </div>
+                                            <footer class="blockquote-footer ">
+                                                <cite title="source Title ">{{review.time | date :  "dd/MM/y  HH:mm "}}</cite>
+
+                                            </footer>
+
+
+                                            <hr/>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

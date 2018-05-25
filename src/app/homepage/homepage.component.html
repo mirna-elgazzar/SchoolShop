@@ -1,0 +1,85 @@
+<div class="wrapper">
+    <div class="page-header section-dark" style="background-image: url('assets/img/background.jpg')">
+
+        <div class="filter"></div>
+        <div class="container">
+            <div class="motto text-center">
+                <h1>Looking for a school?</h1>
+                <br />
+                <div class="d-flex">
+                    <input type="text" placeholder="Search by name" class="form-control mr-1" data-min-length="1" name="results" #result>
+                    <button type="button" class="btn btn-primary" (click)="searchClicked(result.value)"> Search</button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="main">
+        <div class="section text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 mr-auto ml-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16"><g transform="translate(0, 0)"><circle cx="8" cy="5" r="4.5" fill="none" stroke="#444444" stroke-linecap="round" stroke-linejoin="round"></circle> <polyline points="6.88 11.512 4.799 15.5 3.575 12.605 0.5 13.257 2.813 8.824" fill="none" stroke="#444444" stroke-linecap="round" stroke-linejoin="round" data-color="color-2"></polyline> <polyline points="13.187 8.824 15.5 13.257 12.425 12.605 11.201 15.5 9.12 11.512" fill="none" stroke="#444444" stroke-linecap="round" stroke-linejoin="round" data-color="color-2"></polyline></g></svg>
+                        <h2 class="title">Want to join the School Shop community?</h2>
+                        <h5 class="description">If you are a parent or a student, you can register and become a member the School Shop community. You will be able to review schools and teachers, provide extra information about them and add schools to your favorites!
+                        </h5>
+                        <br>
+                        <a href="/users/register" class="btn btn-danger btn-round">Register Now!</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="section landing-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 mr-auto ml-auto">
+                        <h2 class="text-center">Keep in touch?</h2>
+                        <div *ngIf="success" class="alert alert-success ">{{ successMessage }}</div>
+                        <div *ngIf="failure" class="alert alert-danger ">{{ successMessage }}</div>
+
+                        <a class="text-center" href="mailto:schoolshop.guc@gmail.com">Contact us</a>
+                        <form class="contact-form">
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <label>Name</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                        <i class="nc-icon nc-single-02"></i>
+                                    </span>
+                                        <input class="form-control" type="text" placeholder="Enter your name" [(ngModel)]="name" name="name" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label>Email (Please provide a valid email so we can get back to you.)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                        <i class="nc-icon nc-email-85"></i>
+                                    </span>
+                                        <input class="form-control" type="text" placeholder="Enter your email address" [(ngModel)]="email" name="email" required>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <label>Message</label>
+                            <textarea class="form-control" rows="4" [(ngModel)]="message" name="message" placeholder="Tell us your thoughts and feelings..."></textarea>
+                            <div class="row">
+                                <div class="col-md-4 mr-auto ml-auto">
+                                    <button class="btn btn-danger btn-lg btn-fill" (click)="send()">Send Message</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="motto text-center">
+        <h1>Looking for a school?</h1>
+
+        <br />
+
+        <div class="d-flex">
+            <input type="text" placeholder="Search by name" class="form-control mr-1" data-min-length="1" name="results" #result>
+
+            <button type="button" class="btn btn-primary" (click)="log(result.value)"> Log</button>
+
+            <button type="button" class="btn btn-primary" (click)="demo()"> Demo</button>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 mb-20-xs">
+
+                <div class="form-group">
+                    <label>Where are you?</label>
+                    <select class="selectpicker show-tick form-control" title="Choose Location" #location>
+									<option value="All"></option>
+									<option value="nearby">Nearby</option>
+									<option value="mansora">Mansora</option>
+									<option value="alexandria">Alexandria</option>
+									<option value="cairo">Cairo</option>
+								</select>
+
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 mb-20-xs">
+
+                <div class="form-group">
+                    <label>What do you feel like doing</label>
+                    <select class="selectpicker show-tick form-control" title="Choose Category" #category>
+									<option value="All"></option>
+									<option value="categorya">A</option>
+									<option value="categoryb">B</option>
+									<option value="categoryc">C</option>
+									<option value="categoryd">D</option>
+								</select>
+                </div>
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+
+                <div class="fearured-join-item mb-0">
+                    <a (click)="exploreClicked(location.value,category.value)" class="btn btn-primary btn-lg">Explore</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
