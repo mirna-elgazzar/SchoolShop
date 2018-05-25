@@ -237,9 +237,11 @@ module.exports.login = function(req, res, next) {
             }
             // If user not found then he/she is not registered
             if (!user) {
-                return res
-                    .status(404)
-                    .json({ err: null, msg: 'User not found.', data: null });
+                return res.status(404).json({
+                    err: null,
+                    msg: 'User not found.',
+                    data: null
+                });
             }
 
             // If user found then check that the password he entered matches the encrypted hash in the database
@@ -252,9 +254,12 @@ module.exports.login = function(req, res, next) {
                 }
                 // If password doesn't match then its incorrect
                 if (!passwordMatches) {
-                    return res
-                        .status(401)
-                        .json({ err: null, msg: 'Password is incorrect.', data: null });
+                    return res.status(401)
+                        .json({
+                            err: null,
+                            msg: 'Password is incorrect.',
+                            data: null
+                        });
                 }
                 //iff password matches--> server creates a JWT (unique string of characters)using the desired payload and a secret key and put in it the user object from the database
                 //The jwt.sign() method takes a payload and the secret key defined in config.js as parameters.

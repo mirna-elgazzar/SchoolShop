@@ -7,7 +7,7 @@ const Validations = require('../utils/Validation');
 const Encryption = require('../utils/Encryption');
 const EMAIL_REGEX = require('../config/Config').EMAIL_REGEX;
 const Fuse = require('fuse.js');
-const geoip = require('geoip-lite');
+
 const ReqIp = require('req-ip'); //didn't work
 var reqIp = ReqIp();
 
@@ -16,7 +16,7 @@ var where = require('node-where');
 var ip = require('ip'); //didn't wrok
 
 const publicIp = require('public-ip');
-//const geoip = require('geoip-lite');
+
 //const randtoken = require('rand-token');
 //const emailSender = require('../config/emailSender');
 //const bcrypt = require('bcryptjs');
