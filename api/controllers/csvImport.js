@@ -11,7 +11,7 @@ const SchoolReview = mongoose.model('SchoolReview');
 const Stationary = mongoose.model('Stationary');
 const StationeryReview = mongoose.model('StationeryReview');
 
-var csvfile = '/media/mirnaelgazzar/C608EBD708EBC511/Mirna guc/sem 8/Main/SchoolShop/public/files/Newcairo.csv';
+var csvfile = '/media/mirnaelgazzar/C608EBD708EBC511/Mirna guc/sem 8/Main/SchoolShop/public/files/Dokki.csv';
 var stream = fs.createReadStream(csvfile);
 
 var schoolRes = "";
@@ -84,7 +84,7 @@ var csvImport = {
 
                     fees: data[25],
 
-                    city: "Newcairo",
+                    city: "Dokki",
 
                     IGCSE: data[26],
                     IB: data[27],
@@ -94,7 +94,7 @@ var csvImport = {
 
                     location: {
                         address: data[6],
-                        city: "Newcairo",
+                        city: "Dokki",
                         coordinates: [parseFloat(data[8]), parseFloat(data[7])]
                     },
 
