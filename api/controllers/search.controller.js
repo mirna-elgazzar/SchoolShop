@@ -17,9 +17,7 @@ var ip = require('ip'); //didn't wrok
 
 const publicIp = require('public-ip');
 
-//const randtoken = require('rand-token');
-//const emailSender = require('../config/emailSender');
-//const bcrypt = require('bcryptjs');
+
 
 /*
     Get function, to Search the School model by name entered by the user, it gets all schools with matching names

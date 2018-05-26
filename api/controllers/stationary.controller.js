@@ -10,6 +10,7 @@ const geoip = require('geoip-lite');
 const ReqIp = require('req-ip');
 var reqIp = ReqIp();
 var where = require('node-where');
+const publicIp = require('public-ip');
 
 module.exports.getStationary = function(req, res) {
     var sort = { name: 1 };
@@ -72,49 +73,49 @@ module.exports.getStationaryLocation = function(req, res) {
         var lng = 0;
 
         //get ip address of the client that made the request
-        //var ip = req.ip;
-        var ip = "105.42.251.122";
-        //var ip = request.connection.remoteAddress;
 
-        where.is('105.42.251.122', function(err, result) {
-            if (result) {
-                console.log('City: ' + result.get('city'));
-                console.log('Country: ' + result.get('country'));
-                lat = result.get('lat');
-                lng = result.get('lng');
+        publicIp.v4().then(ip => {
+            where.is(ip, function(err, result) {
+                if (result) {
+                    console.log('City: ' + result.get('city'));
+                    console.log('Country: ' + result.get('country'));
+                    lat = result.get('lat');
+                    lng = result.get('lng');
 
-                Stationary.find({
-                        'location.coordinates': {
-                            $near: {
-                                $geometry: {
-                                    type: 'Point',
-                                    coordinates: [lng, lat]
-                                },
-                                //max distance in metres, so this is 50 km
-                                $maxDistance: 10 * 1000
+                    Stationary.find({
+                            'location.coordinates': {
+                                $near: {
+                                    $geometry: {
+                                        type: 'Point',
+                                        coordinates: [lng, lat]
+                                    },
+                                    //max distance in metres, so this is 50 km
+                                    $maxDistance: 10 * 1000
+                                }
                             }
-                        }
-                    })
-                    .sort(sort)
-                    .exec(function(err, stationary) {
-                        //if an error occurred, return the error
-                        if (err)
-                            res.status(500).json({
-                                error: err,
-                                msg: null,
-                                data: null
-                            });
-                        //return the found schools or an empty array
-                        else {
-                            res.status(200).json({
-                                error: null,
-                                msg: "Stationery stores within 30 Km from your location",
-                                data: stationary
-                            });
-                        }
-                    });
-            }
+                        })
+                        .sort(sort)
+                        .exec(function(err, stationary) {
+                            //if an error occurred, return the error
+                            if (err)
+                                res.status(500).json({
+                                    error: err,
+                                    msg: null,
+                                    data: null
+                                });
+                            //return the found schools or an empty array
+                            else {
+                                res.status(200).json({
+                                    error: null,
+                                    msg: "Stationery stores within 30 Km from your location",
+                                    data: stationary
+                                });
+                            }
+                        });
+                }
+            });
         });
+
     } else {
 
         if (location == "all") {
