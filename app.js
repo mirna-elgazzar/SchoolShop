@@ -43,8 +43,7 @@ app.use(
 app.set('secret', config.SECRET);
 
 //VIEW ENGINE SETUP:
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'hbs');
+
 
 //app.use() tells the app to use the parameters (unction or a path and a function) you're giving it:
 
@@ -84,6 +83,9 @@ app.use(function(req, res) {
         data: null
     });
 });
+app.route('/*', function(req, res) {
+    res.redirect(__dirname + '/src/index.html')
+})
 
 app.use(function(req, res, next) {
 
