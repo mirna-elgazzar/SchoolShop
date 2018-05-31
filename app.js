@@ -90,7 +90,7 @@ app.use(function(req, res, next) {
 /*app.use(function(req, res) {
     res.status(404).json({
         err: null,
-        msg: '404 Not Found mizo',
+        msg: '404 Not Found',
         data: null
     });
 });*/
