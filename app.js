@@ -9,27 +9,25 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const hbs = require('express-handlebars');
-
 const moment = require('moment');
 var cons = require('consolidate');
-
-
-var bodyParser = require('body-parser'); //Express middleware to use if you're doing anything with forms.
-//It will add a body object to your request so that you can access POST parameters.
+var bodyParser = require('body-parser'); //It will add a body object to your request so that you can access POST parameters.
 var mongoose = require('mongoose');
 var passport = require('passport');
 var config = require('./api/config/Config');
-
 var app = express();
 
 //Enable IP Address Getting
 app.enable('trust proxy');
 
-
-//set view engine;
+//VIEW ENGINE SETUP:
 app.engine('html', cons.swig)
 app.set('views', path.join(__dirname, 'src'));
 app.set('view engine', 'html');
+
+app.use(bodyParser.json()); //makes the app parse json when you're sending data in JSON format
+app.use(bodyParser.urlencoded({ extended: false })); //allows your app to read data from URLs (GET requests).
+
 // Express Validator
 app.use(
     expressValidator({
@@ -49,22 +47,20 @@ app.use(
         }
     })
 );
+
 //Set the secret of the app that will be used in authentication
 app.set('secret', config.SECRET);
-
-//VIEW ENGINE SETUP:
 
 
 //app.use() tells the app to use the parameters (unction or a path and a function) you're giving it:
 
 app.use(logger('dev')); //logs info about requests (method, status code, response time) to the console
-app.use(bodyParser.json()); //makes the app parse json when you're sending data in JSON format
-app.use(bodyParser.urlencoded({ extended: false })); //allows your app to read data from URLs (GET requests).
-app.use(express.static(path.join(__dirname, 'dist'))); //tells your app to use the /dist directory where you store images, stylesheets and scripts.
-app.use('/', express.static(path.join(__dirname, 'dist')));
+
+app.use(express.static(path.join(__dirname, 'public'))); //tells your app to use the /public directory where you store images, stylesheets and scripts.
+app.use(express.static(path.join(__dirname, '/src')));
+app.use(express.static(path.join(__dirname, '/src')));
+//app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(cors());
-app.use(passport.initialize());
-//app.use(passport.session());
 
 //ROUTING:
 var routes = require('./api/routes/index');
@@ -80,6 +76,11 @@ app.use(function(err, req, res, next) {
         msg: '500 Internal Server Error',
         data: null
     });
+});
+
+app.use(function(req, res, next) {
+    //to always give back the angular application
+    res.render('index');
 });
 
 /* 
@@ -98,11 +99,7 @@ app.route('/*', function(req, res) {
     res.redirect(__dirname + '/src/index.html')
 })
 
-//any request reaches this point means it failed to match any of the above routes
-app.use(function(req, res, next) {
-    //to always give back the angular application
-    res.render('index');
-});
+
 /*app.use(function(req, res, next) {
 
     // Website you wish to allow to connect
