@@ -58,7 +58,7 @@ app.use(logger('dev')); //logs info about requests (method, status code, respons
 
 app.use(express.static(path.join(__dirname, 'public'))); //tells your app to use the /public directory where you store images, stylesheets and scripts.
 app.use(express.static(path.join(__dirname, '/src')));
-app.use(express.static(path.join(__dirname, '/')));
+app.use(express.static(path.join(__dirname, '')));
 //app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
