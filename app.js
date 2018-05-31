@@ -76,18 +76,24 @@ app.use(function(err, req, res, next) {
   Middleware to handle any (404 Not Found) error that may occur if the request didn't find
   a matching route on our server, or the requested data could not be found in the database
 */
-app.use(function(req, res) {
+/*app.use(function(req, res) {
     res.status(404).json({
         err: null,
         msg: '404 Not Found mizo',
         data: null
     });
-});
+});*/
+
 app.route('/*', function(req, res) {
     res.redirect(__dirname + '/src/index.html')
 })
 
+//any request reaches this point means it failed to match any of the above routes
 app.use(function(req, res, next) {
+    //to always give back the angular application
+    res.render('index');
+});
+/*app.use(function(req, res, next) {
 
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -104,7 +110,7 @@ app.use(function(req, res, next) {
 
     // Pass to next layer of middleware
     next();
-});
+});*/
 //ERRORS:
 /*
 // catch 404 and forward to error handler
