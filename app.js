@@ -1,17 +1,18 @@
 require('./api/config/database');
 //The requires import an object (module.exports) from another file or module:
 
-var express = require('express'); //It imports the framework into your app.
+const express = require('express'); //It imports the framework into your app.
 const expressValidator = require('express-validator');
 const cors = require('cors');
-var morgan = require('morgan');
-var path = require('path'); // core Node module for working with and handling paths.
-var favicon = require('serve-favicon');
-var logger = require('morgan');
+const morgan = require('morgan');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
 const hbs = require('express-handlebars');
 
-var cookieParser = require('cookie-parser'); //Express middleware that helps you with handling cookies.
-//Your request object will have a cookies object which you can acces use in your app.*/
+const moment = require('moment');
+var cons = require('consolidate');
+
 
 var bodyParser = require('body-parser'); //Express middleware to use if you're doing anything with forms.
 //It will add a body object to your request so that you can access POST parameters.
@@ -20,6 +21,15 @@ var passport = require('passport');
 var config = require('./api/config/Config');
 
 var app = express();
+
+//Enable IP Address Getting
+app.enable('trust proxy');
+
+
+//set view engine;
+app.engine('html', cons.swig)
+app.set('views', path.join(__dirname, 'src'));
+app.set('view engine', 'html');
 // Express Validator
 app.use(
     expressValidator({
