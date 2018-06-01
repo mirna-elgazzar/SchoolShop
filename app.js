@@ -15,6 +15,7 @@ var bodyParser = require('body-parser'); //It will add a body object to your req
 var mongoose = require('mongoose');
 var passport = require('passport');
 var config = require('./api/config/Config');
+var history = require('connect-history-api-fallback');
 var app = express();
 
 //Enable IP Address Getting
@@ -26,7 +27,9 @@ app.set('views', path.join(__dirname, 'src'));
 app.set('view engine', 'html');
 
 app.use(bodyParser.json()); //makes the app parse json when you're sending data in JSON format
-app.use(bodyParser.urlencoded({ extended: false })); //allows your app to read data from URLs (GET requests).
+app.use(bodyParser.urlencoded({
+    extended: false
+})); //allows your app to read data from URLs (GET requests).
 
 // Express Validator
 app.use(
@@ -51,15 +54,11 @@ app.use(
 //Set the secret of the app that will be used in authentication
 app.set('secret', config.SECRET);
 
-
-//app.use() tells the app to use the parameters (unction or a path and a function) you're giving it:
-
 app.use(logger('dev')); //logs info about requests (method, status code, response time) to the console
 
-//app.use(express.static(path.join(__dirname, 'public'))); //tells your app to use the /public directory where you store images, stylesheets and scripts.
-app.use(express.static(path.join(__dirname, '/src')));
-app.use(express.static(path.join(__dirname, '')));
-//app.use('/', express.static(path.join(__dirname, 'public')));
+// SPA History Middleware
+app.use(history())
+app.use(express.static(path.join(__dirname, 'public'))); //tells your app to use the /public directory where you store images, stylesheets and scripts.
 app.use(cors());
 
 //ROUTING:
@@ -83,7 +82,7 @@ app.use(function(req, res, next) {
     res.render('index');
 });
 
-/* 
+/*
   Middleware to handle any (404 Not Found) error that may occur if the request didn't find
   a matching route on our server, or the requested data could not be found in the database
 */
@@ -99,25 +98,6 @@ app.route('/*', function(req, res) {
     res.redirect(__dirname + '/src/index.html')
 })
 
-
-/*app.use(function(req, res, next) {
-
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    // Pass to next layer of middleware
-    next();
-});*/
 //ERRORS:
 /*
 // catch 404 and forward to error handler
@@ -129,7 +109,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-//If we're in development mode (app.get('env') ) we do want to print the stack trace. 
+//If we're in development mode (app.get('env') ) we do want to print the stack trace.
 //In any other case we just want to show the user the error.
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -142,7 +122,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-if (app.get('env') === 'development') {  
+if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
@@ -152,7 +132,7 @@ if (app.get('env') === 'development') {
     });
 }
 
-app.use(function(err, req, res, next) {  
+app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
@@ -160,6 +140,6 @@ app.use(function(err, req, res, next) {
     });
 });*/
 
-/*Require function makes use of the module.exports! 
+/*Require function makes use of the module.exports!
 When you want to use some variables or functions from another file, you attach them to the module.exports.*/
 module.exports = app;
